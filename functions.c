@@ -24,7 +24,7 @@ void getData(struct registry *reg)
 		fflush(stdin);
 
 		getTime(reg);
-		print("cambios");
+		
 
 
 	
