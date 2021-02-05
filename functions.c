@@ -3,36 +3,45 @@
 #include <time.h>
 #include "library.h"
 
-void getData(struct registry *reg)
-{
-	char ans;
-
-	do
-	{
-		printf("Nom: \n");
-		//fflush(stdout);
-		gets(reg->name);
-		printf("Adreça: \n");
-		//fflush(stdout);
-		gets(reg->address);
-		do
-		{
-			printf("Telèfon: \n");
-			//fflush(stdout);
-			scanf("%ld", &reg->phoneNumber);
-		} while (reg->phoneNumber<100000000 || reg->phoneNumber>999999999);
-		fflush(stdin);
-
-		getTime(reg);
-
-
+FILE *fileName;
+void openFile(char *fp){
 	
+	fileName = fopen(fp, "w");
+	struct registry reg;
+	char ans;
+    fputs("Nom, Adreça, Telèfon, Data, Hora\n",fileName);
+	do{
+		getData(&reg);
+    	printData(reg);
+
 		printf("Vols afegir un altre registre? (y/n): \n");
 		//fflush(stdout);
 		ans = getchar();
 		fflush(stdin);
 
-	} while (ans == 'y');
+	}while(ans == 'y');
+	fclose(fileName);
+}
+
+void getData(struct registry *reg)
+{
+
+	printf("Nom: \n");
+	//fflush(stdout);
+	gets(reg->name);
+	printf("Adreça: \n");
+	//fflush(stdout);
+	gets(reg->address);
+	do
+	{
+		printf("Telèfon: \n");
+		//fflush(stdout);
+		scanf("%ld", &reg->phoneNumber);
+	} while (reg->phoneNumber<100000000 || reg->phoneNumber>999999999);
+	fflush(stdin);
+
+	getTime(reg);
+
 }
 
 void getTime(struct registry *reg){
@@ -52,5 +61,5 @@ void getTime(struct registry *reg){
 
 void printData(struct registry reg)
 {
-	printf("%s, %s, %ld, %d/%d/%d %d:%d:%d \n", reg.name, reg.address, reg.phoneNumber, reg.stDate.day, reg.stDate.month, reg.stDate.year, reg.stDate.hour, reg.stDate.minutes, reg.stDate.seconds);
+	fprintf(fileName, "%s, %s, %ld, %d/%d/%d %d:%d:%d \n", reg.name, reg.address, reg.phoneNumber, reg.stDate.day, reg.stDate.month, reg.stDate.year, reg.stDate.hour, reg.stDate.minutes, reg.stDate.seconds);
 }

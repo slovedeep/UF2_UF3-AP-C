@@ -18,6 +18,7 @@ struct registry{
 };
 
 #endif /* LIBRARY_H_ */
+void openFile(char []);
 void getData(struct registry *);
 void getTime(struct registry *);
 void printData(struct registry);
